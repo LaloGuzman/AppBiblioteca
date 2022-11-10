@@ -4,6 +4,8 @@
  */
 package com.mycompany.appbiblioteca;
 
+import java.util.ArrayList;
+
 /**
  *
  * @author Lalo Guzmán
@@ -36,6 +38,9 @@ public class Libro {
      * @param isbn the isbn to set
      */
     public void setIsbn(String isbn) {
+        if (isbn.length() != 17){
+            msjError("ISBN debe ser de largo 17...");
+        }
         this.isbn = isbn;
     }
 
@@ -78,6 +83,9 @@ public class Libro {
      * @param cantidadBiblioteca the cantidadBiblioteca to set
      */
     public void setCantidadBiblioteca(int cantidadBiblioteca) {
+        if (cantidadBiblioteca < 1) {
+            msjError("Cantidad de Libros en Biblioteca debe ser mayor que cero...");
+        }
         this.cantidadBiblioteca = cantidadBiblioteca;
     }
 
@@ -92,6 +100,9 @@ public class Libro {
      * @param cantidadDisponible the cantidadDisponible to set
      */
     public void setCantidadDisponible(int cantidadDisponible) {
+        if (cantidadDisponible < 1 || cantidadDisponible > this.getCantidadBiblioteca()){
+            msjError("Cantidad Disponible debe ser mayor a 0 y menor o igual que la cantidad de libros en biblioteca...");
+        }
         this.cantidadDisponible = cantidadDisponible;
     }
 
@@ -109,7 +120,15 @@ public class Libro {
         this.imagen = imagen;
     }
     
-    private void msjError(String msj) {
+    public static void validaUnico(String ISBN, ArrayList<Libro> libros){
+        for (int i = 0; i < libros.size(); i++) {
+            if (ISBN.equals(libros.get(i).getIsbn())){
+                msjError("ISBN del Libro debe ser único");
+            }
+        }
+    }
+    
+    private static void msjError(String msj) {
         throw new IllegalArgumentException(msj);
     }
     
