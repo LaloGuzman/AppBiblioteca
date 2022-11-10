@@ -134,6 +134,10 @@ public class AppBiblioteca {
         
         impTitulo("2.- Libros", "=");
         impTitulo("2.2.- Crear Libros", "-");
+        Autor a1 = Autor.validaAutor("Joshua Bloch", autores);
+        Libro l1 = new Libro("978-2-666-66666-6","Java para novatos",a1, 10, 10, "imagenes/libro123.jpg");
+        System.out.println(l1.toString());
+        libros.add(l1);
         
         impTitulo("2.3.- Eliminar Libros", "-");
         

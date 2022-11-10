@@ -118,7 +118,7 @@ public class Libro {
         String texto = 
                "ISBN           : " + getIsbn() + "\n" +
                "TITULO         : " + getTitulo() + "\n" +
-               "AUTOR          : " + getAutor() + "\n" +
+               "AUTOR          : " + getAutor().toString() + "\n" +
                "CANTIDAD TOTAL : " + getCantidadBiblioteca() + "\n" +
                "DISPONIBLES    : " + getCantidadDisponible() + "\n" +
                "IMAGEN         : " + getImagen() + "\n";

@@ -48,8 +48,6 @@ public class Autor {
     
     @Override
     public String toString() {
-        String texto = super.toString();
-        texto += "Nombre de Autor: " + getNombreAutor() + "\n" ;     
-        return texto;
+        return getNombreAutor();
     }
 }
