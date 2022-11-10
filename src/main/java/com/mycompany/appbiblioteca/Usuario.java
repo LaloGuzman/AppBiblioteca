@@ -4,6 +4,7 @@
  */
 package com.mycompany.appbiblioteca;
 
+import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -87,7 +88,6 @@ public class Usuario {
     }
     
     private  boolean validarRUN(String run){
-        System.out.println("validarRUN");
         run = run.toUpperCase();
         //Validamos largo mínimo para evitar el típico 1-9
         if (run.length() < 8 || run.length() > 11) return false;
@@ -125,9 +125,43 @@ public class Usuario {
         return true;
     }
     
-    private void msjError(String msj) {
+    private static void msjError(String msj) {
         throw new IllegalArgumentException(msj);
     }   
+    
+    public static void validaUnico(String RUN, ArrayList<Usuario> usuarios){
+        for (int i = 0; i < usuarios.size(); i++) {
+            if (RUN.equals(usuarios.get(i).getRun())){
+                msjError("RUT de usuario debe ser único");
+            }
+        }
+    }
+    
+    public  ArrayList<Usuario> editUsuario(String ISBN, ArrayList<Usuario> usuarios){
+        for (int i = 0; i < usuarios.size(); i++) {
+            if (getRun().equals(usuarios.get(i).getRun())){
+                setPrestamo(ISBN);
+                usuarios.get(i).setPrestamo(ISBN);
+                return usuarios;
+            }
+        }
+        return null;
+    }
+    
+    public  ArrayList<Usuario> delUsuario(ArrayList<Usuario> usuarios){
+        boolean existe = false;
+        for (int i = 0; i < usuarios.size(); i++) {
+            if (getRun().equals(usuarios.get(i).getRun())){
+                usuarios.remove(i);
+                existe = true;
+                return usuarios;
+            }
+        }
+        if (!existe) {
+            msjError("Usuario a borrar no existe");
+        }
+        return null;
+    }
     
     @Override
     public String toString() {
@@ -139,7 +173,7 @@ public class Usuario {
            if (getPrestamo() == "0") {
                texto += "Sin préstamo vigente \n";
            }else{
-               texto += "Con prestamo vigente (" + getPrestamo() + ")";
+               texto += "Con prestamo vigente (" + getPrestamo() + ")\n";
            }
         return texto;
     }

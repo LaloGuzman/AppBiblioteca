@@ -29,6 +29,8 @@ public class Docente extends Usuario{
      * @param profesionDocente the profesionDocente to set
      */
     public void setProfesionDocente(String profesionDocente) {
+        if (profesionDocente == null){
+            msjError("Debe ingresar profesion del docente");        }
         this.profesionDocente = profesionDocente;
     }
 

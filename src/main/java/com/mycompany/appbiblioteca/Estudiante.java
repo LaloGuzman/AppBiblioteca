@@ -27,6 +27,9 @@ public class Estudiante extends Usuario{
      * @param carreraEstudiante the carreraEstudiante to set
      */
     public void setCarreraEstudiante(String carreraEstudiante) {
+        if (carreraEstudiante == null) {
+            msjError("Debe ingresar carrera del estudiante.");
+        }
         this.carreraEstudiante = carreraEstudiante;
     }
     
@@ -38,7 +41,7 @@ public class Estudiante extends Usuario{
     public String toString() {
         String texto = super.toString();
         texto += "Datos del Estudiante: \n" +
-                "Carrera  : " + getCarreraEstudiante() + "\n" ;     
+                "Carrera   : " + getCarreraEstudiante() + "\n" ;     
         return texto;
     }
 }
