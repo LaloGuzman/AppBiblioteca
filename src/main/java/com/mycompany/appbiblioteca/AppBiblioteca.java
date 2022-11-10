@@ -15,7 +15,7 @@ public class AppBiblioteca {
         System.out.println("Bienvenido al Sistema de Bibliotecas - Grupo 15");
         System.out.println("===============================================\n");
         
-        Usuario u1 = new Usuario("10606035-5", "Lalo", 'm');
+        Usuario u1 = new Usuario("10606035-5", "Lalo", 'F');
         System.out.println(u1.toString());
     }
 }
