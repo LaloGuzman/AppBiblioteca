@@ -29,7 +29,7 @@ public class AppBiblioteca {
         while(lector.hasNextLine()) {
             String linea = lector.nextLine();
             String datos[] = linea.split(";");
-            if (datos[3] != ""){
+            if (!"".equals(datos[3])){
                 Estudiante usr = new Estudiante (datos[0], datos[1], datos[2].charAt(0), datos[3]);
                 usuarios.add(usr);
             }else{
@@ -49,6 +49,41 @@ public class AppBiblioteca {
                 System.out.println("Estudiante: " + usuarios.get(i));
             }
         } */
+        
+        
+        // Llenamos Arreglo de Autores desde Archivo 
+        //-------------------------------------------
+        File archivoAutor = new File("autores.csv");
+        if (!archivoAutor.exists()) {
+            throw new IllegalArgumentException("El archivo 'autores.csv' no existe.");
+        }
+        ArrayList<Autor> autores = new ArrayList<Autor>();
+        Scanner lectorAutor = new Scanner(archivoAutor);
+        while(lectorAutor.hasNextLine()) {
+            String linea = lectorAutor.nextLine();
+            String datos[] = linea.split(";");
+            Autor autor = new Autor (datos[0]);
+            autores.add(autor);
+        }
+        lectorAutor.close();
+        
+        
+        // Llenamos Arreglo de Libros desde Archivo 
+        //-------------------------------------------
+        File archivoLibros = new File("libros.csv");
+        if (!archivoLibros.exists()) {
+            throw new IllegalArgumentException("El archivo 'libros.csv' no existe.");
+        }
+        ArrayList<Libro> libros = new ArrayList<Libro>();
+        Scanner lectorLibro = new Scanner(archivoLibros);
+        while(lectorLibro.hasNextLine()) {
+            String linea = lectorLibro.nextLine();
+            String datos[] = linea.split(";");
+            Autor autor = Autor.validaAutor(datos[2], autores);
+            Libro libro = new Libro (datos[0], datos[1], autor, Integer.parseInt(datos[3]), Integer.parseInt(datos[4]), datos[5]);
+            libros.add(libro);
+        }
+        lectorAutor.close();
         
         impTitulo("Bienvenido al Sistema de Bibliotecas - Grupo 15", "=");
         impTitulo("1.- Usuarios:", "=");

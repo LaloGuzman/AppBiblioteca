@@ -4,6 +4,8 @@
  */
 package com.mycompany.appbiblioteca;
 
+import java.util.ArrayList;
+
 /**
  *
  * @author Lalo Guzmán
@@ -29,8 +31,19 @@ public class Autor {
         this.nombreAutor = nombreAutor;
     }
     
-    private void msjError(String msj) {
+    private static void msjError(String msj) {
         throw new IllegalArgumentException(msj);
+    }
+    
+    public static Autor validaAutor(String nombre, ArrayList<Autor> autores){
+        for (int i = 0; i < autores.size(); i++) {
+            if (nombre.equals(autores.get(i).getNombreAutor())){
+                Autor autor = new Autor(nombre);
+                return autor;
+            }
+        }
+        msjError("Autor no existe...");
+        return null;
     }
     
     @Override
