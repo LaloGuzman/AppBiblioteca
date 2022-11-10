@@ -39,7 +39,7 @@ public class AppBiblioteca {
         }
         lector.close();
         
-        /* para verificar que la carga es correcta por tipo de usuario
+        /* descomentar para verificar que la carga es correcta por tipo de usuario
         System.out.println("Parte for...\n");
         for (int i = 0; i < usuarios.size(); i++) {
             if (usuarios.get(i) instanceof Docente) {
@@ -83,6 +83,7 @@ public class AppBiblioteca {
         
         impTitulo("1.3.- Eliminar usuario", "-");
         usuarios = e1.delUsuario(usuarios);
+        System.out.println("Usuario : " + e1.getRun() + " eliminado... \n");
         
         /* Descomentar para verificar que se elimino desde el arreglo Usuarios 
         System.out.println("Usuarios en el arreglo...\n");
