@@ -86,25 +86,29 @@ public class AppBiblioteca {
         lectorAutor.close();
         
         // ARREGLO DE DEVOLUCIONES
+        // -----------------------
         ArrayList<Prestamo> prestamos = new ArrayList<Prestamo>();
         
         impTitulo("Bienvenido al Sistema de Bibliotecas - Grupo 15", "=");
         impTitulo("1.- Usuarios:", "=");
         impTitulo("1.2.- Instanciar y agregar Usuarios: (Estudiante y Docente", "-");
-                
+        
+        // GENERAMOS UN USUARIO-ESTUDIANTE
         Estudiante e1 = new Estudiante("15331749-6", "María Estudiante", 'F', "Ingeniería en Minas");
         System.out.println(e1.toString());
-        
         //VALIDA USUARIO, SI NO FALLA SE AGREGA AL ARREGLO
+        //-------------------------------------------------
         Usuario.validaUnico(e1.getRun(), usuarios);
         usuarios.add(e1);
         
+        // GENERAMOS UN USUARIO-DOCENTE
         Docente d1 = new Docente("4004562-7", "Nicolás Docente", 'M', "Ingeniero en Ciberseguridad", "MBA");
         System.out.println(d1.toString());
         Usuario.validaUnico(d1.getRun(), usuarios);
         usuarios.add(d1);
         
         impTitulo("1.2.- Editar usuario usuario (cambio de estado)", "-");
+        // EDITAMOS USUARIO CAMBIANDO ESTADO DEL PRESTAMO
         usuarios = e1.editUsuario("333-33-33033-33-3", usuarios);
         System.out.println("Nuevo estado Usuario: \n");
         System.out.println(e1.toString());
@@ -121,6 +125,7 @@ public class AppBiblioteca {
         } */
         
         impTitulo("1.3.- Eliminar usuario", "-");
+        // ELIMINAMOS UN USUARIO
         usuarios = e1.delUsuario(usuarios);
         System.out.println("Usuario : " + e1.getRun() + " eliminado... \n");
         
@@ -138,13 +143,18 @@ public class AppBiblioteca {
         
         impTitulo("2.- Libros", "=");
         impTitulo("2.2.- Crear Libros", "-");
+        // GENERAMOS UN AUTOR Y UN LIBRO
         Autor a1 = Autor.validaAutor("Joshua Bloch", autores);
         Libro l1 = new Libro("978-2-666-66666-6","Java para novatos",a1, 10, 10, "imagenes/libro123.jpg");
+        
+        //VALIDA LIBRO, SI NO FALLA SE AGREGA AL ARREGLO
+        //-------------------------------------------------
         Libro.validaUnico(l1.getIsbn(), libros);
         System.out.println(l1.toString());
         libros.add(l1);
         
         impTitulo("2.3.- Eliminar Libros", "-");
+        // ELIMINAMOS UN LIBRO
         libros = l1.delLibro(libros);
         System.out.println("Libro : " + l1.getIsbn() + " eliminado... \n");
         
@@ -156,9 +166,11 @@ public class AppBiblioteca {
         
         impTitulo("3.- Préstamos", "=");
         impTitulo("3.1.- Ingresar Préstamos", "-");
+        // GENERAMOS UN PRESTAMO
+        Prestamo p1 = Prestamo.ingresarPrestamo("978-2-409-02961-5", "3085920-0", 11, libros, usuarios);
         
         impTitulo("3.2.- Ingresar Devolución", "-");
-        
+        // GENERAMOS UNA DEVOLUCION
     }
     
     public static void impTitulo(String txt, String c){
