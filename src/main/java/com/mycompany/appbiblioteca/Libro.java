@@ -128,6 +128,21 @@ public class Libro {
         }
     }
     
+    public  ArrayList<Libro> delLibro(ArrayList<Libro> libros){
+        boolean existe = false;
+        for (int i = 0; i < libros.size(); i++) {
+            if (getIsbn().equals(libros.get(i).getIsbn())){
+                libros.remove(i);
+                existe = true;
+                return libros;
+            }
+        }
+        if (!existe) {
+            msjError("Libro a borrar no existe...");
+        }
+        return null;
+    }
+    
     private static void msjError(String msj) {
         throw new IllegalArgumentException(msj);
     }

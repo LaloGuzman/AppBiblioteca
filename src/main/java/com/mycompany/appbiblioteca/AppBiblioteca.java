@@ -141,6 +141,14 @@ public class AppBiblioteca {
         libros.add(l1);
         
         impTitulo("2.3.- Eliminar Libros", "-");
+        libros = l1.delLibro(libros);
+        System.out.println("Libro : " + l1.getIsbn() + " eliminado... \n");
+        
+        /* Descomentar para verificar que se elimino desde el arreglo libros 
+        System.out.println("Libros en el arreglo...\n");
+        for (int i = 0; i < libros.size(); i++) {
+            System.out.println("Libro: " + libros.get(i));
+        } */       
         
         impTitulo("3.- Préstamos", "=");
         impTitulo("3.1.- Ingresar Préstamos", "-");
