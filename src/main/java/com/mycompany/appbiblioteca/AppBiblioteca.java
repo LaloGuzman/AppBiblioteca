@@ -18,7 +18,7 @@ public class AppBiblioteca {
 
     public static void main(String[] args) throws FileNotFoundException {
         
-        // Llenamos Arreglo de Usuarios desde Archivo 
+        // LLENAMOS ARREGLO DE USUARIOS DESDE ARCHIVO 
         //-------------------------------------------
         File archivo = new File("usuarios.csv");
         if (!archivo.exists()) {
@@ -39,7 +39,7 @@ public class AppBiblioteca {
         }
         lector.close();
         
-        /* descomentar para verificar que la carga es correcta por tipo de usuario
+        /* DESCOMENTAR PARA VERIFICAR QUE LA CARGA EN EL ARRAY FUE CORRECTA
         System.out.println("Parte for...\n");
         for (int i = 0; i < usuarios.size(); i++) {
             if (usuarios.get(i) instanceof Docente) {
@@ -51,7 +51,7 @@ public class AppBiblioteca {
         } */
         
         
-        // Llenamos Arreglo de Autores desde Archivo 
+        // LLENAMOS ARREGLO AUTOR DESDE ARCHIVO 
         //-------------------------------------------
         File archivoAutor = new File("autores.csv");
         if (!archivoAutor.exists()) {
@@ -68,7 +68,7 @@ public class AppBiblioteca {
         lectorAutor.close();
         
         
-        // Llenamos Arreglo de Libros desde Archivo 
+        // LLENAMOS ARREGLO DE LIBROS DESDE ARCHIVO
         //-------------------------------------------
         File archivoLibros = new File("libros.csv");
         if (!archivoLibros.exists()) {
@@ -85,13 +85,17 @@ public class AppBiblioteca {
         }
         lectorAutor.close();
         
+        // ARREGLO DE DEVOLUCIONES
+        ArrayList<Prestamo> prestamos = new ArrayList<Prestamo>();
+        
         impTitulo("Bienvenido al Sistema de Bibliotecas - Grupo 15", "=");
         impTitulo("1.- Usuarios:", "=");
         impTitulo("1.2.- Instanciar y agregar Usuarios: (Estudiante y Docente", "-");
                 
         Estudiante e1 = new Estudiante("15331749-6", "María Estudiante", 'F', "Ingeniería en Minas");
         System.out.println(e1.toString());
-        //Valida Usuario, si no falla lo agregamos al arreglo
+        
+        //VALIDA USUARIO, SI NO FALLA SE AGREGA AL ARREGLO
         Usuario.validaUnico(e1.getRun(), usuarios);
         usuarios.add(e1);
         
@@ -105,7 +109,7 @@ public class AppBiblioteca {
         System.out.println("Nuevo estado Usuario: \n");
         System.out.println(e1.toString());
         
-        /* Descomentar para verificar que también se cambió estado en el arreglo Usuarios
+        /* DESCOMENTAR PARA VERIFICAR SI USUARIO SE AGREGO AL ARREGLO
         System.out.println("Usuarios en el arreglo...\n");
         for (int i = 0; i < usuarios.size(); i++) {
             if (usuarios.get(i) instanceof Docente) {
@@ -120,7 +124,7 @@ public class AppBiblioteca {
         usuarios = e1.delUsuario(usuarios);
         System.out.println("Usuario : " + e1.getRun() + " eliminado... \n");
         
-        /* Descomentar para verificar que se elimino desde el arreglo Usuarios 
+        /* DESCOMENTAR PARA VERIFICAR SI SE BORRO USUARIO DESDE EL ARREGLO 
         System.out.println("Usuarios en el arreglo...\n");
         for (int i = 0; i < usuarios.size(); i++) {
             if (usuarios.get(i) instanceof Docente) {
@@ -144,7 +148,7 @@ public class AppBiblioteca {
         libros = l1.delLibro(libros);
         System.out.println("Libro : " + l1.getIsbn() + " eliminado... \n");
         
-        /* Descomentar para verificar que se elimino desde el arreglo libros 
+        /* DESCOMENTAR PARA VERIFICAR QUE EL LIBRO FUE ELIMINADO DEL ARREGLO
         System.out.println("Libros en el arreglo...\n");
         for (int i = 0; i < libros.size(); i++) {
             System.out.println("Libro: " + libros.get(i));
