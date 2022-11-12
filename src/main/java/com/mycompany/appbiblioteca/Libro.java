@@ -143,6 +143,16 @@ public class Libro {
         return null;
     }
     
+        public  ArrayList<Libro> editLibro(String ISBN, ArrayList<Libro> libros){
+        for (int i = 0; i < libros.size(); i++) {
+            if (getIsbn().equals(libros.get(i).getIsbn())){
+                libros.get(i).setCantidadDisponible(libros.get(i).getCantidadDisponible()-1);
+                return libros;
+            }
+        }
+        return null;
+    }
+    
     private static void msjError(String msj) {
         throw new IllegalArgumentException(msj);
     }

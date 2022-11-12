@@ -161,8 +161,9 @@ public class Prestamo {
         // GENERAMOS UNA INSTANCIA DE PRESTAMO
         Prestamo prestamo = new Prestamo(usuario, libro, hoyGC, diasPrestamo);
         
+        // IMPRIMIMOS TARJETA
         imprimirTarjeta(prestamo, fechaEntrega);
-        
+
         // ---------------- LO QUE SE DEBE HACER A CONTINUACIÓN SE PUEDE REALIZAR DENTRO DE ÉSTE MÉTODO Ó ----------------
         // ----------------------------- DENTRO DE LA INSTANCIACIÓN DEL OBJETO -------------------------------------------
         // REDUCIMOS LA CANTIDAD DISPONIBLE DEL LIBRE Y AUMENTAMOS LA CANTIDAD EN USO

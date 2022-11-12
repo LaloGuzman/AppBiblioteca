@@ -145,7 +145,7 @@ public class Usuario {
                 return usuarios;
             }
         }
-        return null;
+        return usuarios;
     }
     
     public  ArrayList<Usuario> delUsuario(ArrayList<Usuario> usuarios){

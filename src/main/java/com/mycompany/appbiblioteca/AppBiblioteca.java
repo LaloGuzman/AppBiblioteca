@@ -169,6 +169,18 @@ public class AppBiblioteca {
         // GENERAMOS UN PRESTAMO
         Prestamo p1 = Prestamo.ingresarPrestamo("978-2-409-02961-5", "3085920-0", 11, libros, usuarios);
         
+        // ACTUALIZAMOS USUARIO
+        usuarios = p1.getUsuario().editUsuario(p1.getLibro().getIsbn(), usuarios);
+        System.out.println(p1.getUsuario().toString());
+        
+        // ACTUALIZAMOS DISPONIBILIDAD DE LIBRO 
+        libros = p1.getLibro().editLibro(p1.getLibro().getIsbn(), libros);
+        /* DESCOMENTAR PARA VERIFICAR QUE EL LIBRO FUE DESCONTADO EN EL ARREGLO*/ 
+        System.out.println("Libros en el arreglo...\n");
+        for (int i = 0; i < libros.size(); i++) {
+            System.out.println(libros.get(i));
+        }   
+        
         impTitulo("3.2.- Ingresar Devolución", "-");
         // GENERAMOS UNA DEVOLUCION
     }
