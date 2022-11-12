@@ -7,6 +7,9 @@ package com.mycompany.appbiblioteca;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -16,7 +19,7 @@ import java.util.Scanner;
  */
 public class AppBiblioteca {
 
-    public static void main(String[] args) throws FileNotFoundException {
+    public static void main(String[] args) throws FileNotFoundException, IOException {
         
         // LLENAMOS ARREGLO DE USUARIOS DESDE ARCHIVO 
         //-------------------------------------------
@@ -85,7 +88,7 @@ public class AppBiblioteca {
         }
         lectorAutor.close();
         
-        // ARREGLO DE DEVOLUCIONES
+        // ARREGLO DE PRESTAMOS
         // -----------------------
         ArrayList<Prestamo> prestamos = new ArrayList<Prestamo>();
         
@@ -94,6 +97,7 @@ public class AppBiblioteca {
         impTitulo("1.2.- Instanciar y agregar Usuarios: (Estudiante y Docente", "-");
         
         // GENERAMOS UN USUARIO-ESTUDIANTE
+        // -------------------------------
         Estudiante e1 = new Estudiante("15331749-6", "María Estudiante", 'F', "Ingeniería en Minas");
         System.out.println(e1.toString());
         //VALIDA USUARIO, SI NO FALLA SE AGREGA AL ARREGLO
@@ -102,6 +106,7 @@ public class AppBiblioteca {
         usuarios.add(e1);
         
         // GENERAMOS UN USUARIO-DOCENTE
+        //-----------------------------
         Docente d1 = new Docente("4004562-7", "Nicolás Docente", 'M', "Ingeniero en Ciberseguridad", "MBA");
         System.out.println(d1.toString());
         Usuario.validaUnico(d1.getRun(), usuarios);
@@ -109,6 +114,7 @@ public class AppBiblioteca {
         
         impTitulo("1.2.- Editar usuario usuario (cambio de estado)", "-");
         // EDITAMOS USUARIO CAMBIANDO ESTADO DEL PRESTAMO
+        //-----------------------------------------------
         usuarios = e1.editUsuario("333-33-33033-33-3", usuarios);
         System.out.println("Nuevo estado Usuario: \n");
         System.out.println(e1.toString());
@@ -126,6 +132,7 @@ public class AppBiblioteca {
         
         impTitulo("1.3.- Eliminar usuario", "-");
         // ELIMINAMOS UN USUARIO
+        //----------------------
         usuarios = e1.delUsuario(usuarios);
         System.out.println("Usuario : " + e1.getRun() + " eliminado... \n");
         
@@ -144,6 +151,7 @@ public class AppBiblioteca {
         impTitulo("2.- Libros", "=");
         impTitulo("2.2.- Crear Libros", "-");
         // GENERAMOS UN AUTOR Y UN LIBRO
+        //------------------------------
         Autor a1 = Autor.validaAutor("Joshua Bloch", autores);
         Libro l1 = new Libro("978-2-666-66666-6","Java para novatos",a1, 10, 10, "imagenes/libro123.jpg");
         
@@ -155,6 +163,7 @@ public class AppBiblioteca {
         
         impTitulo("2.3.- Eliminar Libros", "-");
         // ELIMINAMOS UN LIBRO
+        // --------------------
         libros = l1.delLibro(libros);
         System.out.println("Libro : " + l1.getIsbn() + " eliminado... \n");
         
@@ -167,22 +176,89 @@ public class AppBiblioteca {
         impTitulo("3.- Préstamos", "=");
         impTitulo("3.1.- Ingresar Préstamos", "-");
         // GENERAMOS UN PRESTAMO
+        //----------------------
         Prestamo p1 = Prestamo.ingresarPrestamo("978-2-409-02961-5", "3085920-0", 11, libros, usuarios);
+        prestamos.add(p1);
         
         // ACTUALIZAMOS USUARIO
+        //---------------------
         usuarios = p1.getUsuario().editUsuario(p1.getLibro().getIsbn(), usuarios);
-        System.out.println(p1.getUsuario().toString());
         
         // ACTUALIZAMOS DISPONIBILIDAD DE LIBRO 
-        libros = p1.getLibro().editLibro(p1.getLibro().getIsbn(), libros);
-        /* DESCOMENTAR PARA VERIFICAR QUE EL LIBRO FUE DESCONTADO EN EL ARREGLO*/ 
+        //-------------------------------------
+        libros = p1.getLibro().editLibro(p1.getLibro().getIsbn(), libros, 'P');
+        /* DESCOMENTAR PARA VERIFICAR QUE EL LIBRO FUE DESCONTADO EN EL ARREGLO 
         System.out.println("Libros en el arreglo...\n");
         for (int i = 0; i < libros.size(); i++) {
             System.out.println(libros.get(i));
-        }   
+        }   */
         
         impTitulo("3.2.- Ingresar Devolución", "-");
         // GENERAMOS UNA DEVOLUCION
+        //--------------------------
+        prestamos = Prestamo.ingresaDevolucion("978-2-409-02961-5", "3085920-0", prestamos, libros, usuarios);
+        usuarios = p1.getUsuario().editUsuario("0", usuarios);
+        libros = p1.getLibro().editLibro("978-2-409-02961-5", libros, 'P');
+        
+        // GENERAMOS ARCHIVOS CON ACTUALIZACIONES DEL PROCESO
+        //---------------------------------------------------
+        // LIBROS
+        FileWriter aLibros = new FileWriter("librosOUT.csv");
+        for (int i = 0; i < libros.size(); i++) {
+            String linea = libros.get(i).getIsbn() + ";" + 
+                           libros.get(i).getTitulo() + ";" + 
+                           libros.get(i).getAutor().getNombreAutor() + ";" + 
+                           libros.get(i).getCantidadBiblioteca() + ";" +
+                           libros.get(i).getCantidadDisponible() + ";" +
+                           libros.get(i).getImagen()
+                    ;
+            aLibros.write(linea + "\n");
+        }
+        aLibros.close();
+        System.out.println("Archivo librosOUT.csv generado...");
+        
+        //USUARIOS
+        FileWriter aUsuarios = new FileWriter("usuariosOUT.csv");
+        for (int i = 0; i < usuarios.size(); i++) {
+            Usuario usuario = usuarios.get(i);
+            if (usuario instanceof Docente) {
+                String linea = ((Docente) usuario).getRun() + ";" + 
+                               ((Docente) usuario).getNombre() + ";" + 
+                               ((Docente) usuario).getGenero() + ";" + 
+                               ((Docente) usuario).getPrestamo() + ";" +
+                               ";" +
+                               ((Docente) usuario).getProfesionDocente() + ";" +
+                               ((Docente) usuario).getGradoDocente()
+                        ;
+                aUsuarios.write(linea + "\n");
+            } else {
+                String linea = ((Estudiante) usuario).getRun() + ";" + 
+                               ((Estudiante) usuario).getNombre() + ";" + 
+                               ((Estudiante) usuario).getGenero() + ";" + 
+                               ((Estudiante) usuario).getCarreraEstudiante() + ";" +
+                               ((Estudiante) usuario).getPrestamo() + ";" +
+                               ";"
+                        ;    
+                aUsuarios.write(linea + "\n");
+            }
+        }
+        aUsuarios.close();
+        System.out.println("Archivo usuariosOUT.csv generado...");
+
+        //PRESTAMOS
+        FileWriter aPrestamos = new FileWriter("prestamosOUT.csv");
+        SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
+        for (int i = 0; i < prestamos.size(); i++) {
+            String linea = prestamos.get(i).getLibro().getIsbn() + ";" + 
+                           prestamos.get(i).getUsuario().getRun() + ";" + 
+                           sdf.format(prestamos.get(i).getFechaPrestamo().getTime()) + ";" + 
+                           prestamos.get(i).getDiasPrestamo() + ";" +
+                           sdf.format(prestamos.get(i).getDevolucion().getFechaDevolucion().getTime())
+                    ;
+            aPrestamos.write(linea + "\n");
+        }
+        aPrestamos.close();
+        System.out.println("Archivo prestamosOUT.csv generado...");
     }
     
     public static void impTitulo(String txt, String c){

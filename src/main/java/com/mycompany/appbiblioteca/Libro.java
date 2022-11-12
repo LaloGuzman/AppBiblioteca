@@ -143,10 +143,15 @@ public class Libro {
         return null;
     }
     
-        public  ArrayList<Libro> editLibro(String ISBN, ArrayList<Libro> libros){
+        public  ArrayList<Libro> editLibro(String ISBN, ArrayList<Libro> libros, char accion){
         for (int i = 0; i < libros.size(); i++) {
             if (getIsbn().equals(libros.get(i).getIsbn())){
-                libros.get(i).setCantidadDisponible(libros.get(i).getCantidadDisponible()-1);
+                if (accion == 'P'){
+                    libros.get(i).setCantidadDisponible(libros.get(i).getCantidadDisponible()-1);
+                }
+                if (accion == 'D'){
+                    libros.get(i).setCantidadDisponible(libros.get(i).getCantidadDisponible()+1);
+                }
                 return libros;
             }
         }

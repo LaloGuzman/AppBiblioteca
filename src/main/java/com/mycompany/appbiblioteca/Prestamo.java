@@ -7,6 +7,7 @@ package com.mycompany.appbiblioteca;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.GregorianCalendar;
 
 /**
@@ -97,6 +98,23 @@ public class Prestamo {
         this.devolucion = devolucion;
     }
     
+    private int calculaMulta(){
+        Calendar fechaD = this.getDevolucion().getFechaDevolucion();
+        Calendar fechaP = Prestamo.calculaFechaEntrega(this.getFechaPrestamo(), this.getDiasPrestamo());
+        //Descomentar para probar Multa
+        //Calendar fechaP = Prestamo.calculaFechaEntrega(this.getFechaPrestamo(), -3);
+        
+        if (fechaD.after(fechaP)) {
+            int days=0;
+            while (!fechaP.equals(fechaD)) {
+                fechaP.set(Calendar.DAY_OF_MONTH, fechaP.get(Calendar.DAY_OF_MONTH)+1);
+                days++;
+            }
+            return days;
+        }
+        return 0;
+    }
+    
     private static void msjError(String msj) {
         throw new IllegalArgumentException(msj);
     }
@@ -133,8 +151,14 @@ public class Prestamo {
     
     public static Prestamo ingresarPrestamo(String ISBN, String RUN, int diasPrestamo, ArrayList<Libro> libros, ArrayList<Usuario> usuarios) {
         Libro libro = buscarLibro(ISBN, libros);
+        if (null == libro){
+            msjError("Libro a prestar NO existe");
+        }
         
         Usuario usuario = buscarUsuario(RUN, usuarios);
+        if (null == usuario){
+            msjError("Usuario del préstamo NO existe...");
+        }
         
         if (libro.getCantidadDisponible() < 1) {
             msjError("No existe ejemplares disponibles para prestar del libro: " + libro.getIsbn());
@@ -163,15 +187,46 @@ public class Prestamo {
         
         // IMPRIMIMOS TARJETA
         imprimirTarjeta(prestamo, fechaEntrega);
-
-        // ---------------- LO QUE SE DEBE HACER A CONTINUACIÓN SE PUEDE REALIZAR DENTRO DE ÉSTE MÉTODO Ó ----------------
-        // ----------------------------- DENTRO DE LA INSTANCIACIÓN DEL OBJETO -------------------------------------------
-        // REDUCIMOS LA CANTIDAD DISPONIBLE DEL LIBRE Y AUMENTAMOS LA CANTIDAD EN USO
-        // DEJAMOS AL USUARIO NO DISPONIBLE PARA EL NUEVO PRÉSTAMO
-        // 
-        
-        // RETORNAMOS EL PRÉSTAMO VALIDADO
         return prestamo;
+    }
+    
+    public static ArrayList<Prestamo> ingresaDevolucion(String ISBN, String RUN, ArrayList<Prestamo> prestamos, ArrayList<Libro> libros, ArrayList<Usuario> usuarios) {
+        //VALIDAMOS QUE EXISTA EL LIBRO
+        Libro libro = buscarLibro(ISBN, libros);
+        if (null == libro){
+            msjError("Libro a devolver NO existe");
+        }
+        
+        //VALIDAMOS QUE EXISTA EL USUARIO
+        Usuario usuario = buscarUsuario(RUN, usuarios);
+        if (null == usuario){
+            msjError("Usuario de la devolución NO existe...");
+        }
+        
+        //VALIDAMOS QUE EXISTA EL PRESTAMO
+        Prestamo prestamo = buscarPrestamo(ISBN, RUN, prestamos);
+        if (prestamo == null) {
+            msjError("El prestamo que está devolviendo no existe.");
+        }
+        
+        // ASIGNAMOS LA DEVOLUCION
+        Calendar hoy = new GregorianCalendar();
+        GregorianCalendar hoyGC = new GregorianCalendar(hoy.get(Calendar.YEAR),hoy.get(Calendar.MONTH), hoy.get(Calendar.DAY_OF_MONTH));
+        Devolucion devolucion = new Devolucion(hoyGC);
+        prestamo.setDevolucion(devolucion);
+        int diasMulta = prestamo.calculaMulta();
+        if (diasMulta > 0) {
+            String texto = "*************************************************\n" +
+                           "*                                               *\n" +
+                           "*             COBRO DE MULTA!!                  *\n" +
+                           "*             por: $ " + (diasMulta * 1000) +  "\t\t\t*\n" +
+                           "*                                               *\n" +
+                           "*************************************************\n";
+            System.out.println(texto);
+        } 
+        System.out.println("Libro: " + ISBN + " delvuelto el " + hoyGC.getTime() + "\n");
+        
+        return prestamos;
     }
     
     public static Libro buscarLibro(String ISBN, ArrayList<Libro> libros) {
@@ -181,7 +236,6 @@ public class Prestamo {
                 return libro;
             }
         }
-        msjError("Libro a prestar NO existe");
         return null;
     }
     
@@ -191,7 +245,16 @@ public class Prestamo {
                 return usuarios.get(i);
             }
         }
-        msjError("Usuario del préstamo NO existe...");
+        return null;
+    }
+    
+    public static Prestamo buscarPrestamo(String ISBN, String RUN, ArrayList<Prestamo> prestamos) {
+        for (int i = 0; i < prestamos.size(); i++) {
+            Prestamo prestamo = prestamos.get(i);
+            if (prestamo.getUsuario().getRun().equals(RUN) && prestamo.getLibro().getIsbn().equals(ISBN)) {
+                return prestamo;
+            }
+        }
         return null;
     }
     

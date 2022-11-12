@@ -31,8 +31,4 @@ public class Devolucion {
         this.fechaDevolucion = fechaDevolucion;
     }
     
-    private void msjError(String msj) {
-        throw new IllegalArgumentException(msj);
-    }
-    
 }
