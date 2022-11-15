@@ -158,6 +158,17 @@ public class Libro {
         return null;
     }
     
+    public static String toCSV(Libro libro){
+        String linea = libro.getIsbn() + ";" + 
+               libro.getTitulo() + ";" + 
+               libro.getAutor().getNombreAutor() + ";" + 
+               libro.getCantidadBiblioteca() + ";" +
+               libro.getCantidadDisponible() + ";" +
+               libro.getImagen()
+                    ;
+        return linea;
+    }
+        
     private static void msjError(String msj) {
         throw new IllegalArgumentException(msj);
     }

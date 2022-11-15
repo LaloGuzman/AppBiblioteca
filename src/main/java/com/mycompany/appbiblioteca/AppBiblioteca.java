@@ -205,13 +205,7 @@ public class AppBiblioteca {
         // LIBROS
         FileWriter aLibros = new FileWriter("librosOUT.csv");
         for (int i = 0; i < libros.size(); i++) {
-            String linea = libros.get(i).getIsbn() + ";" + 
-                           libros.get(i).getTitulo() + ";" + 
-                           libros.get(i).getAutor().getNombreAutor() + ";" + 
-                           libros.get(i).getCantidadBiblioteca() + ";" +
-                           libros.get(i).getCantidadDisponible() + ";" +
-                           libros.get(i).getImagen()
-                    ;
+            String linea = Libro.toCSV(libros.get(i));
             aLibros.write(linea + "\n");
         }
         aLibros.close();
@@ -222,23 +216,10 @@ public class AppBiblioteca {
         for (int i = 0; i < usuarios.size(); i++) {
             Usuario usuario = usuarios.get(i);
             if (usuario instanceof Docente) {
-                String linea = ((Docente) usuario).getRun() + ";" + 
-                               ((Docente) usuario).getNombre() + ";" + 
-                               ((Docente) usuario).getGenero() + ";" + 
-                               ((Docente) usuario).getPrestamo() + ";" +
-                               ";" +
-                               ((Docente) usuario).getProfesionDocente() + ";" +
-                               ((Docente) usuario).getGradoDocente()
-                        ;
+                String linea = Docente.toCSV(usuario);
                 aUsuarios.write(linea + "\n");
             } else {
-                String linea = ((Estudiante) usuario).getRun() + ";" + 
-                               ((Estudiante) usuario).getNombre() + ";" + 
-                               ((Estudiante) usuario).getGenero() + ";" + 
-                               ((Estudiante) usuario).getCarreraEstudiante() + ";" +
-                               ((Estudiante) usuario).getPrestamo() + ";" +
-                               ";"
-                        ;    
+                String linea = Estudiante.toCSV(usuario);    
                 aUsuarios.write(linea + "\n");
             }
         }
@@ -247,14 +228,8 @@ public class AppBiblioteca {
 
         //PRESTAMOS
         FileWriter aPrestamos = new FileWriter("prestamosOUT.csv");
-        SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
         for (int i = 0; i < prestamos.size(); i++) {
-            String linea = prestamos.get(i).getLibro().getIsbn() + ";" + 
-                           prestamos.get(i).getUsuario().getRun() + ";" + 
-                           sdf.format(prestamos.get(i).getFechaPrestamo().getTime()) + ";" + 
-                           prestamos.get(i).getDiasPrestamo() + ";" +
-                           sdf.format(prestamos.get(i).getDevolucion().getFechaDevolucion().getTime())
-                    ;
+            String linea = Prestamo.toCSV(prestamos.get(i));
             aPrestamos.write(linea + "\n");
         }
         aPrestamos.close();

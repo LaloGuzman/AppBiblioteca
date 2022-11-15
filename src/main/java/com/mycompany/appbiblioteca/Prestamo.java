@@ -258,6 +258,17 @@ public class Prestamo {
         return null;
     }
     
+    public static String toCSV(Prestamo prestamo){
+        SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
+        String linea = prestamo.getLibro().getIsbn() + ";" + 
+               prestamo.getUsuario().getRun() + ";" + 
+               sdf.format(prestamo.getFechaPrestamo().getTime()) + ";" + 
+               prestamo.getDiasPrestamo() + ";" +
+               sdf.format(prestamo.getDevolucion().getFechaDevolucion().getTime())
+        ;
+        return linea;
+    }
+    
     @Override
     public String toString() {
         // GENERAMOS UN ESTADO BASE
