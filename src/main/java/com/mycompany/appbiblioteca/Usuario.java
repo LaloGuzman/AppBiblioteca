@@ -163,11 +163,11 @@ public class Usuario {
         return null;
     }
     
-    public static String toCSV(Usuario usuario){
-        String linea = usuario.getRun() + ";" + 
-               usuario.getNombre() + ";" + 
-               usuario.getGenero() + ";" + 
-               usuario.getPrestamo() + ";" +
+    public String toCSV(){
+        String linea = getRun() + ";" + 
+               getNombre() + ";" + 
+               getGenero() + ";" + 
+               getPrestamo() + ";" +
                ";" +
                ";" +
                "";

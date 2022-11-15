@@ -158,13 +158,13 @@ public class Libro {
         return null;
     }
     
-    public static String toCSV(Libro libro){
-        String linea = libro.getIsbn() + ";" + 
-               libro.getTitulo() + ";" + 
-               libro.getAutor().getNombreAutor() + ";" + 
-               libro.getCantidadBiblioteca() + ";" +
-               libro.getCantidadDisponible() + ";" +
-               libro.getImagen()
+    public String toCSV(){
+        String linea = getIsbn() + ";" + 
+               getTitulo() + ";" + 
+               getAutor().getNombreAutor() + ";" + 
+               getCantidadBiblioteca() + ";" +
+               getCantidadDisponible() + ";" +
+               getImagen()
                     ;
         return linea;
     }

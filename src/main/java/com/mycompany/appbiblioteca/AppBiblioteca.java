@@ -200,12 +200,12 @@ public class AppBiblioteca {
         usuarios = p1.getUsuario().editUsuario("0", usuarios);
         libros = p1.getLibro().editLibro("978-2-409-02961-5", libros, 'P');
         
-        // GENERAMOS ARCHIVOS CON ACTUALIZACIONES DEL PROCESO
-        //---------------------------------------------------
+        // GENERAMOS ARCHIVOS CON ACTUALIZACIONES DEL PROCESO - SE GENERARAN CON DISTINTO NOMBRE PARA QUE PUEDA COMPRARAR LOS CAMBIOS
+        //---------------------------------------------------------------------------------------------------------------------------
         // LIBROS
         FileWriter aLibros = new FileWriter("librosOUT.csv");
         for (int i = 0; i < libros.size(); i++) {
-            String linea = Libro.toCSV(libros.get(i));
+            String linea = libros.get(i).toCSV();
             aLibros.write(linea + "\n");
         }
         aLibros.close();
@@ -216,10 +216,10 @@ public class AppBiblioteca {
         for (int i = 0; i < usuarios.size(); i++) {
             Usuario usuario = usuarios.get(i);
             if (usuario instanceof Docente) {
-                String linea = Docente.toCSV(usuario);
+                String linea = ((Docente) usuario).toCSV();
                 aUsuarios.write(linea + "\n");
             } else {
-                String linea = Estudiante.toCSV(usuario);    
+                String linea = ((Estudiante) usuario).toCSV();    
                 aUsuarios.write(linea + "\n");
             }
         }
@@ -229,7 +229,7 @@ public class AppBiblioteca {
         //PRESTAMOS
         FileWriter aPrestamos = new FileWriter("prestamosOUT.csv");
         for (int i = 0; i < prestamos.size(); i++) {
-            String linea = Prestamo.toCSV(prestamos.get(i));
+            String linea = prestamos.get(i).toCSV();
             aPrestamos.write(linea + "\n");
         }
         aPrestamos.close();

@@ -52,14 +52,15 @@ public class Docente extends Usuario{
         throw new IllegalArgumentException(msj);
     }
     
-    public static String toCSV(Docente usuario){
-        String linea = usuario.getRun() + ";" + 
-               usuario.getNombre() + ";" + 
-               usuario.getGenero() + ";" + 
-               usuario.getPrestamo() + ";" +
+    @Override
+    public String toCSV(){
+        String linea = getRun() + ";" + 
+               getNombre() + ";" + 
+               getGenero() + ";" + 
+               getPrestamo() + ";" +
                ";" +
-               usuario.getProfesionDocente()+ ";" +
-               usuario.getGradoDocente();
+               getProfesionDocente()+ ";" +
+               getGradoDocente();
         return linea;
     }
     

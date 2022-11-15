@@ -37,12 +37,13 @@ public class Estudiante extends Usuario{
         throw new IllegalArgumentException(msj);
     }   
     
-    public static String toCSV(Estudiante usuario){
-        String linea = usuario.getRun() + ";" + 
-               usuario.getNombre() + ";" + 
-               usuario.getGenero() + ";" + 
-               usuario.getPrestamo() + ";" +
-               usuario.getCarreraEstudiante() + ";" +
+    @Override
+    public String toCSV(){
+        String linea = getRun() + ";" + 
+               getNombre() + ";" + 
+               getGenero() + ";" + 
+               getPrestamo() + ";" +
+               getCarreraEstudiante() + ";" +
                ";" +
                "";
         return linea;
