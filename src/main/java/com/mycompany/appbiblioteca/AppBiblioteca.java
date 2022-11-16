@@ -215,13 +215,8 @@ public class AppBiblioteca {
         FileWriter aUsuarios = new FileWriter("usuariosOUT.csv");
         for (int i = 0; i < usuarios.size(); i++) {
             Usuario usuario = usuarios.get(i);
-            if (usuario instanceof Docente) {
-                String linea = ((Docente) usuario).toCSV();
-                aUsuarios.write(linea + "\n");
-            } else {
-                String linea = ((Estudiante) usuario).toCSV();    
-                aUsuarios.write(linea + "\n");
-            }
+            String linea = usuario.toCSV();
+            aUsuarios.write(linea + "\n");
         }
         aUsuarios.close();
         System.out.println("Archivo usuariosOUT.csv generado...");
